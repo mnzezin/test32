@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controle ESP32</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle do LED - ESP32</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 20px;
+            font-size: 16px;
+            margin: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h1>Controle o ESP32</h1>
-  <p><button onclick="controlLED('ligar')">Ligar LED</button></p>
-  <p><button onclick="controlLED('desligar')">Desligar LED</button></p>
+    <h1>Controle do LED</h1>
+    <p>Clique nos botões abaixo para ligar ou desligar o LED do ESP32.</p>
 
-  <script>
-    function controlLED(action) {
-      fetch('http://192.168.0.20/' + action)
-        .then(response => response.text())
-        .then(data => {
-          alert('Comando enviado: ' + action);
-        })
-        .catch(error => alert('Erro ao enviar comando'));
-    }
-  </script>
+    <!-- Botões para controlar o LED -->
+    <button id="ligarBtn">Ligar LED</button>
+    <button id="desligarBtn">Desligar LED</button>
+
+    <script>
+        // Defina o IP do seu ESP32 aqui
+        const ipESP32 = 'http://192.168.0.20';  // Substitua com o IP correto do seu ESP32
+
+        // Função para ligar o LED
+        document.getElementById("ligarBtn").addEventListener("click", function() {
+            fetch(ipESP32 + '/ligar', { method: 'GET' })
+                .then(response => response.text())
+                .then(data => alert("Comando enviado: " + data))
+                .catch(error => alert("Erro ao enviar comando: " + error));
+        });
+
+        // Função para desligar o LED
+        document.getElementById("desligarBtn").addEventListener("click", function() {
+            fetch(ipESP32 + '/desligar', { method: 'GET' })
+                .then(response => response.text())
+                .then(data => alert("Comando enviado: " + data))
+                .catch(error => alert("Erro ao enviar comando: " + error));
+        });
+    </script>
 </body>
 </html>
